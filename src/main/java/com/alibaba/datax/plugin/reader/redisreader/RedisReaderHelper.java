@@ -24,15 +24,18 @@ public class RedisReaderHelper {
             jedisCluster.expire("testConnect", 1);
             try {
                 jedisCluster.close();
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
-        } else if (Constant.STANDALONE.equalsIgnoreCase(mode)) {
+        }
+        else if (Constant.STANDALONE.equalsIgnoreCase(mode)) {
             Jedis jedis = getJedis(addr, auth);
             jedis.set("testConnect", "test");
             jedis.expire("testConnect", 1);
             jedis.close();
-        } else {
+        }
+        else {
             throw DataXException.asDataXException(CommonErrorCode.CONFIG_ERROR,
                     String.format("您提供配置文件有误，redis的mode必须是standalone或cluster，而[%s]为非法输入.", mode));
         }
@@ -58,7 +61,8 @@ public class RedisReaderHelper {
         }
         if (StringUtils.isBlank(auth)) {
             jedisCluster = new JedisCluster(nodes, 3000, 3000, 3, jedisPoolConfig);
-        } else {
+        }
+        else {
             jedisCluster = new JedisCluster(nodes, 3000, 3000, 3, auth, jedisPoolConfig);
         }
 
@@ -68,10 +72,12 @@ public class RedisReaderHelper {
     public static void close(Object obj) {
         if (obj instanceof Jedis) {
             ((Jedis) obj).close();
-        } else if (obj instanceof JedisCluster) {
+        }
+        else if (obj instanceof JedisCluster) {
             try {
                 ((JedisCluster) obj).close();
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
         }

@@ -5,7 +5,6 @@ import com.alibaba.datax.common.element.Record;
 import com.alibaba.datax.common.element.StringColumn;
 import com.alibaba.datax.common.plugin.RecordSender;
 import com.alibaba.datax.common.util.Configuration;
-import com.alibaba.datax.plugin.reader.redisreader.RedisReadAbstract;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
 
@@ -15,6 +14,7 @@ public class StringTypeReader extends RedisReadAbstract {
         super(configuration);
     }
 
+    @Override
     public void readData(RecordSender recordSender) {
         Jedis jedis = (Jedis) getRedisClient(configuration);
         Pipeline pipeline = jedis.pipelined();
@@ -27,7 +27,5 @@ public class StringTypeReader extends RedisReadAbstract {
         record.addColumn(column);
 
         recordSender.sendToWriter(record);
-
-        jedis.close();
     }
 }
