@@ -1,8 +1,8 @@
-package com.alibaba.datax.plugin.reader.rediswriter;
+package com.alibaba.datax.plugin.reader.redisreader;
 
 public final class Constant {
 
-    public static final String STANDALONE = "stringeton";
+    public static final String STANDALONE = "standalone";
     public static final String CLUSTER = "cluster";
 
 }

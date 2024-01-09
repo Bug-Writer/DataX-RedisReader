@@ -2,7 +2,7 @@ package com.alibaba.datax.plugin.reader.redisreader;
 
 import com.alibaba.datax.common.exception.CommonErrorCode;
 import com.alibaba.datax.common.exception.DataXException;
-import com.alibaba.datax.common.plugin.RecordReceiver;
+import com.alibaba.datax.common.plugin.RecordSender;
 import com.alibaba.datax.common.util.Configuration;
 import org.apache.commons.lang3.StringUtils;
 import redis.clients.jedis.Jedis;
@@ -17,7 +17,7 @@ public abstract class RedisReadAbstract {
         this.configuration = configuration;
     }
 
-    private Object getRedisClient(Configuration configuration) {
+    Object getRedisClient(Configuration configuration) {
         String mode = configuration.getNecessaryValue(Key.MODE, CommonErrorCode.CONFIG_ERROR);
         String addr = configuration.getNecessaryValue(Key.ADDRESS, CommonErrorCode.CONFIG_ERROR);
         String auth = configuration.getString(Key.AUTH);
@@ -28,7 +28,7 @@ public abstract class RedisReadAbstract {
             redisClient = RedisReaderHelper.getJedis(addr, auth);
         }
         else {
-            throw DataXExeption.asDataXException(CommonErrorCode.CONFIG_ERROR, String.format("无效的Redis模式:[%s]. 有效的模式为 'cluster' 或 'standalone'.", mode));
+            throw DataXException.asDataXException(CommonErrorCode.CONFIG_ERROR, String.format("无效的Redis模式:[%s]. 有效的模式为 'cluster' 或 'standalone'.", mode));
         }
         return redisClient;
     }

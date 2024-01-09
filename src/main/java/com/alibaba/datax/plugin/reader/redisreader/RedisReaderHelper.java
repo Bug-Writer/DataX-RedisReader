@@ -1,4 +1,4 @@
-package com.alibaba.datax.plugin.writer.rediswriter;
+package com.alibaba.datax.plugin.reader.redisreader;
 
 import com.alibaba.datax.common.exception.CommonErrorCode;
 import com.alibaba.datax.common.exception.DataXException;
@@ -11,14 +11,14 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import redis.clients.jedis.*;
 
-public class RedisWriterHelper {
+public class RedisReaderHelper {
 
-    public static void checkConnection(Configutation userConfig) {
+    public static void checkConnection(Configuration userConfig) {
         String mode = userConfig.getNecessaryValue(Key.MODE, CommonErrorCode.CONFIG_ERROR);
-        String addr = userConfig.getNecessaryValue(Key.MODE, ComminErrorCode.CONFIG_ERROR);
+        String addr = userConfig.getNecessaryValue(Key.MODE, CommonErrorCode.CONFIG_ERROR);
         String auth = userConfig.getString(Key.AUTH);
 
-        if (Constant.CLUSTER.equalIgnoreCase(mode)) {
+        if (Constant.CLUSTER.equalsIgnoreCase(mode)) {
             JedisCluster jedisCluster = getJedisCluster(addr, auth);
             jedisCluster.set("testConnect", "test");
             jedisCluster.expire("testConnect", 1);
@@ -38,14 +38,22 @@ public class RedisWriterHelper {
         }
     }
 
+    public static Jedis getJedis(String addr, String auth) {
+        String[] split = addr.split(":");
+        Jedis jedis = new Jedis(split[0], Integer.parseInt(split[1]));
+        if(StringUtils.isNoneBlank(auth)){
+            jedis.auth(auth);
+        }
+        return jedis;
+    }
+
     public static JedisCluster getJedisCluster(String addr, String auth) {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         JedisCluster jedisCluster;
         Set<HostAndPort> nodes = new HashSet<>();
-        String[] split = addr.split(',');
-        for (int i = 0; i < split.length; ++i) {
-            String node = split[i];
-            String[] hostPort = node.split(':');
+        String[] split = addr.split(",");
+        for (String node : split) {
+            String[] hostPort = node.split(":");
             nodes.add(new HostAndPort(hostPort[0], Integer.parseInt(hostPort[1])));
         }
         if (StringUtils.isBlank(auth)) {
