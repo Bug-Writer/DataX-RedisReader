@@ -1,6 +1,6 @@
 {
-    "name": "rediswriter",
-    "class": "com.alibaba.datax.plugin.writer.rediswriter.RedisWriter",
+    "name": "redisreader",
+    "class": "com.alibaba.datax.plugin.writer.redisreader.RedisReader",
     "description": "useScene: prod. mechanism: Jdbc connection using the database, execute select sql, retrieve data from the ResultSet. warn: The more you know about the database, the less problems you encounter.",
     "developer": "Roy"
 }
