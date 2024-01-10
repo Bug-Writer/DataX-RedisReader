@@ -1,0 +1,9 @@
+{
+  "name": "redisreader",
+  "parameter": {
+    "mode": "",
+    "address": "",
+    "auth": "",
+    "include": ""
+  }
+}

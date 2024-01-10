@@ -3,31 +3,28 @@ package com.alibaba.datax.plugin.reader.redisreader;
 import com.alibaba.datax.common.exception.CommonErrorCode;
 import com.alibaba.datax.common.exception.DataXException;
 import com.alibaba.datax.common.util.Configuration;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.JedisPoolConfig;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.apache.commons.lang3.StringUtils;
-import redis.clients.jedis.*;
 
 public class RedisReaderHelper {
 
     public static void checkConnection(Configuration userConfig) {
         String mode = userConfig.getNecessaryValue(Key.MODE, CommonErrorCode.CONFIG_ERROR);
-        String addr = userConfig.getNecessaryValue(Key.MODE, CommonErrorCode.CONFIG_ERROR);
+        String addr = userConfig.getNecessaryValue(Key.ADDRESS, CommonErrorCode.CONFIG_ERROR);
         String auth = userConfig.getString(Key.AUTH);
 
         if (Constant.CLUSTER.equalsIgnoreCase(mode)) {
             JedisCluster jedisCluster = getJedisCluster(addr, auth);
             jedisCluster.set("testConnect", "test");
             jedisCluster.expire("testConnect", 1);
-            try {
-                jedisCluster.close();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+            jedisCluster.close();
         }
         else if (Constant.STANDALONE.equalsIgnoreCase(mode)) {
             Jedis jedis = getJedis(addr, auth);
@@ -51,7 +48,7 @@ public class RedisReaderHelper {
     }
 
     public static JedisCluster getJedisCluster(String addr, String auth) {
-        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        final GenericObjectPoolConfig jedisPoolConfig = new JedisPoolConfig();
         JedisCluster jedisCluster;
         Set<HostAndPort> nodes = new HashSet<>();
         String[] split = addr.split(",");
@@ -74,12 +71,7 @@ public class RedisReaderHelper {
             ((Jedis) obj).close();
         }
         else if (obj instanceof JedisCluster) {
-            try {
-                ((JedisCluster) obj).close();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+            ((JedisCluster) obj).close();
         }
     }
 }
