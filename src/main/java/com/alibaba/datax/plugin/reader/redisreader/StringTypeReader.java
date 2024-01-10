@@ -17,15 +17,15 @@ public class StringTypeReader extends RedisReadAbstract {
     @Override
     public void readData(RecordSender recordSender) {
         Jedis jedis = (Jedis) getRedisClient(configuration);
-        Pipeline pipeline = jedis.pipelined();
         String redisKey = Key.INCLUDE;
 
-        String redisValue = pipeline.get(redisKey).get();
+        String redisValue = jedis.get(redisKey);
 
         Record record = recordSender.createRecord();
         Column column = new StringColumn(redisValue);
         record.addColumn(column);
 
         recordSender.sendToWriter(record);
+        jedis.close();
     }
 }

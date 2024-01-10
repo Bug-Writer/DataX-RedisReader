@@ -28,7 +28,7 @@ public abstract class RedisReadAbstract {
             redisClient = RedisReaderHelper.getJedis(addr, auth);
         }
         else {
-            throw DataXException.asDataXException(CommonErrorCode.CONFIG_ERROR, String.format("无效的Redis模式:[%s]. 有效的模式为 'cluster' 或 'standalone'.", mode));
+            throw DataXException.asDataXException(CommonErrorCode.CONFIG_ERROR,     String.format("无效的Redis模式:[%s]. 有效的模式为 'cluster' 或 'standalone'.", mode));
         }
         return redisClient;
     }
