@@ -24,9 +24,9 @@ public class RedisReader extends Reader {
 
         @Override
         public List<Configuration> split(int adviceNumber) {
-            List<Configuration> splitConfigs = new ArrayList<Configuration>();
-            for (int i = 0; i < adviceNumber; ++i) {
-                splitConfigs.add(config.clone());
+            List<Configuration> splitConfigs = new ArrayList<>();
+            for (int i = 0; i < /*adviceNumber*/ 1; ++i) {
+                splitConfigs.add(config.clone()); // [TODO] 完善分割逻辑
             }
             return splitConfigs;
         }
