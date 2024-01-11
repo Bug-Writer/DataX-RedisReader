@@ -3,5 +3,5 @@ TODO：
 
 - [x] INCLUDE支持正则
 - [ ] 测试CLUSTER
-- [ ] 使用Pipeline
+- [x] 使用Pipeline
 
