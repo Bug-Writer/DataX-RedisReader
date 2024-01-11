@@ -4,6 +4,7 @@
     "mode": "",
     "address": "",
     "auth": "",
-    "include": ""
+    "include": "",
+    "exclude": ""
   }
 }

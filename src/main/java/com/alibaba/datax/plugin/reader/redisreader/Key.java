@@ -7,4 +7,5 @@ public class Key {
     public final static String AUTH = "auth";
 
     public final static String INCLUDE = "include";
+    public final static String EXCLUDE = "exclude";
 }

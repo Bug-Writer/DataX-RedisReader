@@ -4,14 +4,10 @@ import com.alibaba.datax.common.exception.CommonErrorCode;
 import com.alibaba.datax.common.exception.DataXException;
 import com.alibaba.datax.common.plugin.RecordSender;
 import com.alibaba.datax.common.util.Configuration;
-import org.apache.commons.lang3.StringUtils;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisCluster;
 
 public abstract class RedisReadAbstract {
     protected Configuration configuration;
     Object redisClient;
-    protected int records;
 
     public RedisReadAbstract(Configuration configuration) {
         this.configuration = configuration;
