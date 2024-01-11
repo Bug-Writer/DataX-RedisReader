@@ -41,7 +41,7 @@ public class StringTypeReader extends RedisReadAbstract {
 
         try {
             String cursor = ScanParams.SCAN_POINTER_START;
-            ScanParams scanParams = new ScanParams().count(1000); // 设置每次迭代返回的键的数量
+            ScanParams scanParams = new ScanParams().count(1000);
             List<Response<String>> responseList = new ArrayList<>();
 
             do {
